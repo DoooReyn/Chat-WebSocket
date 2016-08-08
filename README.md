@@ -1,6 +1,14 @@
-# Node.js yu与 WebSocket 结合的聊天程序 
+# Node.js 与 WebSocket 结合的聊天程序 
 
 ## 安装 
 - npm install
-- node app.js
-- node client.js
+
+## 运行 
+- 服务端：node app.js
+- 客户端 ：node client.js
+
+## 说明 
+- 客户端、服务端都可以在终端上跑；
+- 服务端支持推送消息到客户端；
+- 客户端程序启动时需要传入房间号和用户号，默认都为0，0 代表全部；
+- 房间号 0 代表世界聊天 ，用户号 0 代表私人聊天。
