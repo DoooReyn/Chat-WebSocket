@@ -10,18 +10,6 @@ var ArrayEach = function (array, fn) {
 	}
 };
 
-var ArrayFind = function (array, val) {
-	var target = null;
-	ArrayEach(array, function (rval, i) {
-		if (rval == val) {
-			target = i;
-			return true;
-		}
-	});
-	return target;
-};
-
 module.exports = {
 	each : ArrayEach,
-	find : ArrayFind,
 };

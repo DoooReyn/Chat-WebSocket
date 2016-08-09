@@ -3,7 +3,6 @@ Time = require('./utils/TimeStamp');
 var readline   = require('readline');  
 var httpProxy  = require('http');
 var WebSocket  = require('websocket').server;
-var ArrayUtils = require('./utils/ArrayUtils');
 var RoomUtils  = require('./utils/RoomUtils');
 var UserUtils  = require('./utils/UserUtils');
 var ConnUtils  = require('./utils/ConnectionUtils');

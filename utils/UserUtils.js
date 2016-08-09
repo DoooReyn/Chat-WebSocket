@@ -13,7 +13,7 @@ var UserManager = function(Server) {
         return total;
     };
     this.find = function(userId) {
-        return ArrayUtils.find(Users, userId);
+        return Users.indexOf(userId);
     };
     this.push = function(userId) {
         Users.push(userId);
