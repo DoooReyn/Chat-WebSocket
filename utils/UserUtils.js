@@ -22,7 +22,7 @@ var UserManager = function() {
     };
     this.remove = function(userId) {
         var userIndex = this.find(userId);
-        if (userIndex) {
+        if (typeof userIndex == 'number' && userIndex >= 0) {
             Users.splice(userIndex, 1);
         }
     };
