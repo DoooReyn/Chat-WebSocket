@@ -55,15 +55,9 @@ var query = function(connection) {
             if (answer.length > 0) {
                 var action = 'sendMessage';
                 var index = actions.indexOf(answer);
-                if (index) {
+                if (typeof index == 'number' && index >= 0) {
                     action = answer;
                 }
-                // for (var i in actions) {
-                //     if (answer == actions[i]) {
-                //         action = answer;
-                //         break;
-                //     }
-                // }
                 var request = {
                     'action': action,
                     'roomId': roomId,
