@@ -2,7 +2,9 @@
 var ArrayUtils = require('./ArrayUtils');
 
 // 用户管理器
-var UserManager = function(Server) {
+var UserManager = function() {
+    var Server = GetServerInstance();
+
     var Users = Server.Users;
     this.index = function(fn) {
         ArrayUtils.each(Users, fn);

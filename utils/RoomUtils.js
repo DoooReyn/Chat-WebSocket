@@ -51,7 +51,9 @@ var getExitRoomMessage = function (userId, room) {
 
 
 // 创建聊天室
-var RoomGenerator = function (Server) {
+var RoomGenerator = function () {
+    var Server = GetServerInstance();
+
 	var room    = new Object();
 	room.roomId = ++RoomID;
 	room.total  = 0;
@@ -199,7 +201,9 @@ var RoomGenerator = function (Server) {
 };
 
 // 聊天室管理器
-var RoomManager = function (Server) {
+var RoomManager = function () {
+    var Server = GetServerInstance();
+    
     var Rooms = Server.Rooms;
 
     this.index = function (fn) {

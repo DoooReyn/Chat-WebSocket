@@ -1,7 +1,9 @@
 // var Time = require('./TimeStamp');
 var RoomManager = require('./RoomUtils').RoomMgr;
 
-var ConnectionUtils = function (Server, connection) {
+var ConnectionUtils = function (connection) {
+	var Server = GetServerInstance();
+
 	this._sendJsonData = function(jsonData) {
 		connection.sendUTF(JSON.stringify(jsonData));
 	};
