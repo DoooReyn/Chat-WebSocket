@@ -74,4 +74,4 @@ var query = function(connection) {
     }();
 };
 
-client.connect('ws://localhost:8888?username=user7943&rid=rid699', 'echo-protocol');
+client.connect('ws://localhost:8888', 'echo-protocol');
