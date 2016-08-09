@@ -54,12 +54,16 @@ var query = function(connection) {
         rl.question("\n发送：", function(answer) {
             if (answer.length > 0) {
                 var action = 'sendMessage';
-                for (var i in actions) {
-                    if (answer == actions[i]) {
-                        action = answer;
-                        break;
-                    }
+                var index = actions.indexOf(answer);
+                if (index) {
+                    action = answer;
                 }
+                // for (var i in actions) {
+                //     if (answer == actions[i]) {
+                //         action = answer;
+                //         break;
+                //     }
+                // }
                 var request = {
                     'action': action,
                     'roomId': roomId,

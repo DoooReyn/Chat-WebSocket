@@ -37,6 +37,7 @@ var ServerGenerator = function () {
 		Server.Users = [];	// 所有的用户
 		Server.G_ROOM       // 全局聊天室
 		Server.UserID = 0;
+		Server.RoomID = -1;
 	};
 
 	// 创建一个 http 服务器
@@ -197,7 +198,7 @@ var startServer = function () {
 	Server.LoadServerConfig();
 	var hpServer = Server.CreateHttpServer();
 	var wsServer = Server.BindWebSocketServer(hpServer);
-	Server.RoomMgr = new RoomManager();
+	Server.RoomMgr = new RoomManager(Server);
 	Server.UserMgr = new UserManager();
 	Server.G_ROOM  = new RoomGenerator();
 	Server.G_ROOM.setRoomManager(Server.RoomMgr);

@@ -1,10 +1,6 @@
 var Time = require('./TimeStamp');
 var ArrayUtils = require('./ArrayUtils');
 
-var RoomID = -1;
-var UserID = 0;
-
-
 var getJoinRoomMessage = function (userId, room) {
     var message;
     if (room.isSystem()) {
@@ -55,7 +51,7 @@ var RoomGenerator = function () {
     var Server = GetServerInstance();
 
 	var room    = new Object();
-	room.roomId = ++RoomID;
+	room.roomId = ++Server.RoomID;
 	room.total  = 0;
 	room.member = {};
 	room.owner  = 0; // 0:system, >0:user
@@ -78,13 +74,14 @@ var RoomGenerator = function () {
 
     room.setRoomManager = function (manager) {
         room.RoomMgr = manager;
-    }
+    };
 
     room.setOwner = function (owner) {
-		if (Server.UserMgr.find(owner)) {
+        var index = Server.UserMgr.find(owner);
+		if (typeof index == 'number' && index >= 0) {
 			room.owner = owner;
 		}
-    }
+    };
 
     room.join = function (connection) {
     	var userId = connection.userId;
@@ -201,10 +198,8 @@ var RoomGenerator = function () {
 };
 
 // 聊天室管理器
-var RoomManager = function () {
-    var Server = GetServerInstance();
-    
-    var Rooms = Server.Rooms;
+var RoomManager = function (Manager) {
+    var Rooms = Manager.Rooms;
 
     this.index = function (fn) {
         ArrayUtils.each(Rooms, fn);
