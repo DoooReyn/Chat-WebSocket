@@ -17,6 +17,15 @@ var ConnectionUtils = function (connection) {
 		this._sendJsonData(jsonData);
 	};
 
+	this._sendSuccess = function (action, successMessage) {
+		var jsonData = {
+			'action' : action,
+			'success': successMessage || 'success',
+			'dateline' : Time()
+		};
+		this._sendJsonData(jsonData);
+	};
+
 	this._removeFromGlobalRoom = function () {
 		Server.G_ROOM.kick(connection);
 		Server.UserMgr.remove(connection.userId);
@@ -48,6 +57,32 @@ var ConnectionUtils = function (connection) {
 		this._sendJsonData(jsonData);
 	};
 
+	this.queryUser = function (jsonData) {
+		var userId = parseInt(jsonData.userId);
+		var action = jsonData.action;
+		if (userId >= 0) {
+			var index = Server.UserMgr.find(userId);
+			if (index >= 0) {
+				this._sendSuccess(action, '用户' + userId + '在线.')
+				return;
+			}
+		}
+		this._sendError(action, '用户不存在');
+	};
+
+	this.queryRoom = function (jsonData) {
+		var roomId = parseInt(jsonData.roomId);
+		var action = jsonData.action;
+		if (roomId > 0) {
+			var room = Server.RoomMgr.find(roomId);;
+			if (room) {
+				this._sendSuccess(action, '房间有效');
+				return;
+			}
+		}
+		this._sendError(action, '房间不存在');
+	};
+
 	this.postMessage = function (jsonData) {
 		var roomId = parseInt(jsonData.roomId) || 0;
 		var userId = parseInt(jsonData.userId) || 0;
@@ -62,10 +97,10 @@ var ConnectionUtils = function (connection) {
 					room.privatecast(jsonData.message, userId, connection);
 				}
 			} else {
-				this._sendError(jsonData.action, 'not a member.');
+				this._sendError(jsonData.action, '不是房间的成员.');
 			}
 		} else {
-			this._sendError(jsonData.action, 'room not found.');
+			this._sendError(jsonData.action, '房间不存在.');
 		}
 	};
 
@@ -84,10 +119,11 @@ var ConnectionUtils = function (connection) {
 	this.joinRoom = function (jsonData) {
 		var roomId = parseInt(jsonData.roomId);
 		var room = Server.RoomMgr.find(roomId);
-		if (room) {
+		if (room && room.roomId > 0) {
 			room.join(connection);
+			this._sendSuccess(jsonData.action, '已加入房间'+roomId);
 		} else {
-			this._sendError(jsonData.action, 'room not found.')
+			this._sendError(jsonData.action, '房间不存在.');
 		}
 	};
 
@@ -98,17 +134,17 @@ var ConnectionUtils = function (connection) {
 		if (room) {
 			if (room.isSystem()) {
 				// 世界聊天不可以退出
-				this._sendError(action, 'can not exit for on world room.');
+				this._sendError(action, '无法退出世界聊天.');
 				return;
 			}
 			if (room.owner == connection.userId) {
 				// 创建者不可退出，只能解散
-				this._sendError(action, 'can not exit for created by youself.');
+				this._sendError(action, '无法退出自己创建的房间.');
 				return;
 			}
 			room.kick(connection);
 		} else {
-			this._sendError(action, 'room not found');
+			this._sendError(action, '房间不存在');
 		}
 	};
 
@@ -119,17 +155,17 @@ var ConnectionUtils = function (connection) {
 		if (room) {
 			if (room.isSystem()) {
 				// 世界聊天不可以退出
-				this._sendError(action, 'can not dismiss for on world room.');
+				this._sendError(action, '无法解散世界聊天');
 				return;
 			} 
 			if (room.owner != connection.userId) {
 				// 非创建者不可解散
-				this._sendError(action, 'can not dismiss for not creator.');
+				this._sendError(action, '只有创建者可以解散房间.');
 				return;
 			}
 			room.dismiss();
 		} else {
-			this._sendError(action, 'room not found');
+			this._sendError(action, '房间不存在.');
 		}
 	};
 

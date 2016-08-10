@@ -98,6 +98,16 @@ var ServerGenerator = function () {
 				connUtils.verify(jsonData);
 			});
 
+			// 查询用户
+			connection.on('action_queryUser', (jsonData) => {
+				connUtils.queryUser(jsonData);
+			});
+
+			// 查询房间
+			connection.on('action_queryRoom', (jsonData) => {
+				connUtils.queryRoom(jsonData);
+			});
+
 			// 客户端消息转发
 			connection.on('action_sendMessage', (jsonData) => {
 				connUtils.postMessage(jsonData);
