@@ -10,7 +10,7 @@ var RoomGenerator = RoomUtils.RoomGen;
 var RoomManager   = RoomUtils.RoomMgr;
 var UserManager   = UserUtils.UserMgr;
 
-// 创建 WecSocket Server 服务
+// 创建 WebSocket Server 服务
 var ServerGenerator = function () {
 	// 创建服务器对象
 	var Server = new Object();
